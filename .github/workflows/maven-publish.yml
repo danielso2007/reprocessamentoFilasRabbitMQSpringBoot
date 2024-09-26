@@ -1,0 +1,236 @@
+# This workflow will build a package using Maven and then publish it to GitHub packages when a release is created
+# For more information see: https://github.com/actions/setup-java/blob/main/docs/advanced-usage.md#apache-maven-with-a-settings-path
+
+name: Teste do projeto
+
+on:
+  push:
+    branches: [ "main", "release/**" ]
+    tags:        
+    - v*
+    paths-ignore:
+    - '**.md'
+    - '**.sh'
+    - '**.json'
+  pull_request:
+    branches: [ "main", "release/**" ]
+    paths-ignore:
+    - '**.md'
+    - '**.sh'
+    - '**.json'
+
+jobs:
+  checkstyle-rabbitmq-consumer-springboot:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Cache Maven dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
+    - name: Set up JDK 22
+      uses: actions/setup-java@v3
+      with:
+        java-version: '22'
+        distribution: 'temurin'
+        cache: maven
+    - name: Verificando checkstyle
+      run: mvn checkstyle:check -pl rabbitmq-consumer-springboot -Dmaven.test.skip=true
+
+  pmd-rabbitmq-consumer-springboot:
+    needs: ["checkstyle-rabbitmq-consumer-springboot"]
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Cache Maven dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
+    - name: Set up JDK 22
+      uses: actions/setup-java@v3
+      with:
+        java-version: '22'
+        distribution: 'temurin'
+        cache: maven
+    - name: Verificando PMD
+      run: mvn pmd:check -pl rabbitmq-consumer-springboot -Dmaven.test.skip=true
+
+  spotbugs-rabbitmq-consumer-springboot:
+    needs: ["pmd-rabbitmq-consumer-springboot"]
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Cache Maven dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
+    - name: Set up JDK 22
+      uses: actions/setup-java@v3
+      with:
+        java-version: '22'
+        distribution: 'temurin'
+        cache: maven
+    - name: Verificando spotbugs
+      run: mvn spotbugs:check -pl rabbitmq-consumer-springboot -Dmaven.test.skip=true
+
+  test-rabbitmq-consumer-springboot:
+    needs: ["spotbugs-rabbitmq-consumer-springboot"]
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Cache Maven dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
+    - name: Set up JDK 22
+      uses: actions/setup-java@v3
+      with:
+        java-version: '22'
+        distribution: 'temurin'
+        cache: maven
+
+    - name: Teste do projeto
+      run: mvn -B test -pl rabbitmq-consumer-springboot
+
+  build-rabbitmq-consumer-springboot:
+    needs: ["test-rabbitmq-consumer-springboot"]
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Cache Maven dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
+    - name: Set up JDK 22
+      uses: actions/setup-java@v3
+      with:
+        java-version: '22'
+        distribution: 'temurin'
+        cache: maven
+
+    - name: Build do projeto
+      run: mvn -B package -pl rabbitmq-consumer-springboot -Dmaven.test.skip=true
+
+# ---------------------------------------
+  checkstyle-rabbitmq-producer-springboot:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Cache Maven dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
+    - name: Set up JDK 22
+      uses: actions/setup-java@v3
+      with:
+        java-version: '22'
+        distribution: 'temurin'
+        cache: maven
+    - name: Verificando checkstyle
+      run: mvn checkstyle:check -pl rabbitmq-producer-springboot -Dmaven.test.skip=true
+
+  pmd-rabbitmq-producer-springboot:
+    needs: ["checkstyle-rabbitmq-producer-springboot"]
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Cache Maven dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
+    - name: Set up JDK 22
+      uses: actions/setup-java@v3
+      with:
+        java-version: '22'
+        distribution: 'temurin'
+        cache: maven
+    - name: Verificando PMD
+      run: mvn pmd:check -pl rabbitmq-producer-springboot -Dmaven.test.skip=true
+
+  spotbugs-rabbitmq-producer-springboot:
+    needs: ["pmd-rabbitmq-producer-springboot"]
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Cache Maven dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
+    - name: Set up JDK 22
+      uses: actions/setup-java@v3
+      with:
+        java-version: '22'
+        distribution: 'temurin'
+        cache: maven
+    - name: Verificando spotbugs
+      run: mvn spotbugs:check -pl rabbitmq-producer-springboot -Dmaven.test.skip=true
+
+  test-rabbitmq-producer-springboot:
+    needs: ["spotbugs-rabbitmq-producer-springboot"]
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Cache Maven dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
+    - name: Set up JDK 22
+      uses: actions/setup-java@v3
+      with:
+        java-version: '22'
+        distribution: 'temurin'
+        cache: maven
+
+    - name: Teste do projeto
+      run: mvn -B test -pl rabbitmq-producer-springboot
+
+  build-rabbitmq-producer-springboot:
+    needs: ["test-rabbitmq-producer-springboot"]
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Cache Maven dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
+    - name: Set up JDK 22
+      uses: actions/setup-java@v3
+      with:
+        java-version: '22'
+        distribution: 'temurin'
+        cache: maven
+
+    - name: Build do projeto
+      run: mvn -B package -pl rabbitmq-producer-springboot -Dmaven.test.skip=true
+      
+# ---------------------------------------
