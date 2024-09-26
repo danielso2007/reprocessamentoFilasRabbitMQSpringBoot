@@ -11,11 +11,14 @@ spring:
     locale: pt-BR
     time-zone: America/Sao_Paulo
   rabbitmq:
+    connection-timeout: 5000
+    request-timeout: 30000
+    host: ${AMQP_URL:localhost}
+    port: ${AMQP_PORT:5672}
+    virtual-host: /spring_producer_vhost
+    username: guest
+    password: guest
     request:
-      host: ${AMQP_URL:localhost}
-      port: ${AMQP_PORT:5672}
-      username: guest
-      password: guest
       exchenge:
         producer: ex.producer.aula-spring
       routing-key:

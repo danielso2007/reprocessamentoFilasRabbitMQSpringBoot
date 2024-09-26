@@ -13,8 +13,7 @@ import jakarta.validation.constraints.Size;
 public class MessageQueue {
 
     @NotBlank(message = "O texto não pode ser vazio.")
-    @Size(min = 0, max = 255,
-            message = "O texto precisa ter no mínimo 1 ou no máximo 255 caracteres.")
+    @Size(min = 0, max = 255, message = "O texto precisa ter no mínimo 1 ou no máximo 255 caracteres.")
     @Schema(description = "A mensagem de texto que será enviada.")
     private String text;
 

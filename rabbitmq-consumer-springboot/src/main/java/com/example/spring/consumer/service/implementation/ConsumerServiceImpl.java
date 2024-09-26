@@ -16,8 +16,9 @@ public class ConsumerServiceImpl implements ConsumerService {
     @Override
     public void action(MessageQueue message) {
         if (TESTE_RETORNO.equalsIgnoreCase(message.getText())) {
+            logger.error("Erro de retorno de mensagem (Apenas teste)");
             throw new AmqpRejectAndDontRequeueException("erro");
         }
-        logger.info(message.getText());
+        logger.info("Mensagem recebida: {}", message.getText());
     }
 }
