@@ -1,0 +1,16 @@
+{
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "java.compile.nullAnalysis.mode": "automatic",
+    "java.format.settings.url": "https://raw.githubusercontent.com/google/styleguide/gh-pages/eclipse-java-google-style.xml",
+    "java.format.settings.profile": "GoogleStyle",
+    "java.jdt.ls.vmargs": "-XX:+UseParallelGC -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xmx2G -Xms512m -Xlog:disable",
+    "java.configuration.compiler.source": "22",
+    "java.configuration.compiler.target": "22",
+    "editor.formatOnSave": false,
+    "[java]": {
+        "editor.formatOnSave": false
+    },
+    "sonarlint.connectedMode.project": {
+        "sonar.java.source": "22"
+    }
+}

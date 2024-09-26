@@ -1,0 +1,21 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "SpringConsumerApplication",
+            "request": "launch",
+            "mainClass": "com.example.spring.consumer.SpringConsumerApplication",
+            "projectName": "spring-consumer",
+            "args": [
+                "--spring.profiles.active=default",
+                "-Dspring-boot.run.arguments=--server.port=8182"
+            ],
+            "env": {
+                "AMQP_URL": "localhost",
+                "AMQP_PORT": "5672",
+            },
+            "preLaunchTask": "run-maven-command-clean"
+        }
+    ]
+}
