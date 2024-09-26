@@ -28,7 +28,12 @@ spring:
       parking-lot:
         producer: pl.producer.aula-spring
     listener:
-      time-retry: 00 39 22 * * *
+      time-retry: '*/10 * * * * *' # a cada 30 segundos
+  task:
+    scheduling:
+      pool:
+        size: 5
+      thread-name-prefix: my-scheduler-rabbitmq
 logging:
   level:
     org:
@@ -63,3 +68,6 @@ info:
     encoding: "@project.build.sourceEncoding@"
     java:
       version: "@java.version@"
+mensagens:
+  tentativas:
+    maxima: 3

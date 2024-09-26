@@ -10,14 +10,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class ProducerRabbitConfiguration {
+public class ConsumerRabbitConfiguration {
 
     private final String exchange;
     private final String routingKey;
     private final String deadLetter;
     private final String parkingLot;
 
-    public ProducerRabbitConfiguration(
+    public ConsumerRabbitConfiguration(
             @Value("${spring.rabbitmq.request.exchenge.producer}") String exchange,
             @Value("${spring.rabbitmq.request.routing-key.producer}") String routingKey,
             @Value("${spring.rabbitmq.request.dead-letter.producer}") String deadLetter,
