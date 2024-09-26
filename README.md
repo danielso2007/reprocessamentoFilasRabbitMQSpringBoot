@@ -1,3 +1,5 @@
+[![Teste do projeto](https://github.com/danielso2007/reprocessamentoFilasRabbitMQSpringBoot/actions/workflows/maven-publish.yml/badge.svg)](https://github.com/danielso2007/reprocessamentoFilasRabbitMQSpringBoot/actions/workflows/maven-publish.yml)
+
 # reprocessamentoFilasRabbitMQSpringBoot
 
 Reprocessamento de Filas RabbitMQ no SpringBoot.
